@@ -7,6 +7,7 @@ import com.n1analytics.paillier.PaillierPrivateKey;
 import com.n1analytics.paillier.PaillierPublicKey;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -32,6 +33,7 @@ public class PaillierEncryptionService implements PHEncryptionService {
         checkKeysInitialized();
         return paillierContext.encrypt(value);
     }
+
     /**
      * Decrypts an encrypted number back to a double value using the Paillier private key.
      */
@@ -57,9 +59,25 @@ public class PaillierEncryptionService implements PHEncryptionService {
         return encryptedValue.multiply(scalar);
     }
 
+    @Override
+    public EncryptedNumber deserializeEncryptedNumber(String serialized, PaillierContext context) {
+        String[] parts = serialized.split(":");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Invalid serialized format for EncryptedNumber");
+        }
+        BigInteger ciphertext = new BigInteger(parts[0]);
+        int exponent = Integer.parseInt(parts[1]);
+        return new EncryptedNumber(context, ciphertext, exponent);
+    }
+
     private void checkKeysInitialized() {
         if (privateKey == null || publicKey == null || paillierContext == null) {
             throw new IllegalStateException("Paillier keys or context are not initialized. Call initializeKeys() first.");
         }
+    }
+
+    @Override
+    public PaillierContext getContext() {
+        return this.paillierContext;
     }
 }

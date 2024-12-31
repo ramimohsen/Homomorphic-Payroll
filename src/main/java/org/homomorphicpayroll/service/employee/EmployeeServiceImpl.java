@@ -7,6 +7,7 @@ import org.homomorphicpayroll.exception.custom.EmployeeAlreadyExistException;
 import org.homomorphicpayroll.exception.custom.ResourceNotFoundException;
 import org.homomorphicpayroll.model.Employee;
 import org.homomorphicpayroll.repository.EmployeeRepository;
+import org.homomorphicpayroll.service.PHEncryptionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final PHEncryptionService phEncryptionService;
 
     @Transactional
     @Override
