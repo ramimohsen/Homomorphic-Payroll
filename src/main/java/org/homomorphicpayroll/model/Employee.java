@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.homomorphicpayroll.dto.EmployeeResponse;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,7 +33,7 @@ public class Employee {
 
     @Builder.Default
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Payroll> payrolls = List.of();
+    private List<Payroll> payrolls = new ArrayList<>();
 
     @CreationTimestamp
     private LocalDateTime createdAt;

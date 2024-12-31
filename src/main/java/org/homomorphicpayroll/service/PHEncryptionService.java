@@ -15,9 +15,7 @@ public interface PHEncryptionService {
 
     EncryptedNumber multiplyEncryptedByScalar(EncryptedNumber encryptedValue, double scalar);
 
-    default String serializeEncryptedNumber(EncryptedNumber encryptedNumber) {
-        return encryptedNumber.calculateCiphertext().toString() + ":" + encryptedNumber.getExponent();
-    }
+    String serializeEncryptedNumber(EncryptedNumber encryptedNumber);
 
     EncryptedNumber deserializeEncryptedNumber(String serialized, PaillierContext context);
 

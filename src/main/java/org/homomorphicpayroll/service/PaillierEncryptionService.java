@@ -60,6 +60,11 @@ public class PaillierEncryptionService implements PHEncryptionService {
     }
 
     @Override
+    public String serializeEncryptedNumber(EncryptedNumber encryptedNumber) {
+        return encryptedNumber.calculateCiphertext().toString() + ":" + encryptedNumber.getExponent();
+    }
+
+    @Override
     public EncryptedNumber deserializeEncryptedNumber(String serialized, PaillierContext context) {
         String[] parts = serialized.split(":");
         if (parts.length != 2) {
@@ -70,7 +75,7 @@ public class PaillierEncryptionService implements PHEncryptionService {
         return new EncryptedNumber(context, ciphertext, exponent);
     }
 
-    private void checkKeysInitialized() {
+    void checkKeysInitialized() {
         if (privateKey == null || publicKey == null || paillierContext == null) {
             throw new IllegalStateException("Paillier keys or context are not initialized. Call initializeKeys() first.");
         }

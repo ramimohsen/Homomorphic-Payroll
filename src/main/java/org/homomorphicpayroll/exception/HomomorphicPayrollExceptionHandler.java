@@ -18,7 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
-public class EmployeeServiceExceptionHandler {
+public class HomomorphicPayrollExceptionHandler {
 
     @ExceptionHandler(EmployeeAlreadyExistException.class)
     public ResponseEntity<Object> employeeAlreadyExistExceptionHandling(EmployeeAlreadyExistException exception, WebRequest request) {
