@@ -15,6 +15,64 @@ processing. It achieves this through **partial homomorphic encryption**.
 - **One-to-Many Relationship**: The system uses a one-to-many relationship where each employee can have multiple payroll
   records.
 
+## Payroll Management System with Homomorphic Encryption
+
+### Sequence of Operations
+
+1. **Add Employee**  
+   ➡️ User inputs employee details.  
+   ➡️ System saves the employee information in the database.
+
+2. **Add Payrolls**  
+   ➡️ User enters payroll details for an employee.  
+   ➡️ System encrypts the payroll data using the Paillier encryption scheme.
+
+   **Encryption Equation:**  
+   For a value \( m \), Paillier encryption works as:  
+   \[
+   E(m) = g^m \cdot r^n \mod n^2
+   \]
+    - \( g \): A generator parameter.
+    - \( r \): A random number less than \( n \).
+    - \( n \): The public key modulus.
+
+   ➡️ Encrypted data is serialized into a storable format.  
+   ➡️ Serialized data is saved in the database.
+
+3. **Calculate Total Net Income**  
+   ➡️ User requests total net income filtered by date.  
+   ➡️ System retrieves serialized encrypted payroll data from the database.  
+   ➡️ Data is deserialized into an encrypted number class.
+
+   **Encrypted Data Processing:**  
+   The Paillier encryption allows homomorphic operations on encrypted data.
+    - **Addition of Encrypted Values:**  
+      Given \( E(m_1) \) and \( E(m_2) \):  
+      \[
+      E(m_1) \cdot E(m_2) \mod n^2 = E(m_1 + m_2)
+      \]  
+      This means the sum of two encrypted values can be computed without decryption.
+
+    - **Scalar Multiplication:**  
+      Given \( E(m) \) and a scalar \( k \):  
+      \[
+      E(m)^k \mod n^2 = E(k \cdot m)
+      \]  
+      This allows multiplying an encrypted value by a scalar.
+
+   ➡️ The system applies these operations to compute the total net income directly on encrypted data.  
+   ➡️ The result of the computation remains encrypted, ensuring data confidentiality.  
+   ➡️ The encrypted result is returned to the user without ever decrypting.
+
+### Key Components
+
+- **Encryption**: Paillier Homomorphic Encryption Library.
+- **Serialization**: Convert encrypted data into a storable format.
+- **Database**: Secure storage for serialized encrypted data.
+- **Deserialization**: Convert stored data back to an encrypted number class.
+- **Computation**: Perform operations like addition and scalar multiplication directly on encrypted data.
+
+
 ### APIs:
 
 1. **Create Employee**:
